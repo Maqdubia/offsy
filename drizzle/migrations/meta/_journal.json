@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794302217673,
+      "tag": "0000_create_offsy_leave_management",
+      "breakpoints": true
+    }
+  ]
 }
