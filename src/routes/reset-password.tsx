@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft, Eye, EyeOff, LockKeyhole } from "lucide-react";
 import { toast } from "sonner";
@@ -46,14 +46,23 @@ function ResetPasswordPage() {
     void verifyRecovery();
   }, []);
 
-  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (password.length < 8) return toast.error("Use at least 8 characters for your password.");
-    if (password !== confirmation) return toast.error("Those passwords don’t match.");
+    if (password.length < 8) {
+      toast.error("Use at least 8 characters for your password.");
+      return;
+    }
+    if (password !== confirmation) {
+      toast.error("Those passwords don’t match.");
+      return;
+    }
     setSaving(true);
     const { error } = await supabase.auth.updateUser({ password });
     setSaving(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Your password has been updated. You can sign in now.");
     await supabase.auth.signOut();
     window.location.assign("/");
